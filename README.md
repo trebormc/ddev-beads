@@ -80,13 +80,19 @@ ddev bd prime                              # Get context
 | P2 | Medium -- normal tasks |
 | P3 | Low -- nice-to-haves |
 
-## Related
+## Part of DDEV AI Workspace
 
-- [ddev-agents-sync](https://github.com/trebormc/ddev-agents-sync) -- Agents auto-sync from git
-- [ddev-opencode](https://github.com/trebormc/ddev-opencode) -- OpenCode AI container
-- [ddev-claude-code](https://github.com/trebormc/ddev-claude-code) -- Claude Code container
-- [ddev-ralph](https://github.com/trebormc/ddev-ralph) -- Autonomous task runner
-- [drupal-ai-agents](https://github.com/trebormc/drupal-ai-agents) -- Agent definitions for Drupal
+This add-on is part of [DDEV AI Workspace](https://github.com/trebormc/ddev-ai-workspace), a modular ecosystem of DDEV add-ons for AI-powered Drupal development.
+
+| Repository | Description | Relationship |
+|------------|-------------|--------------|
+| [ddev-ai-workspace](https://github.com/trebormc/ddev-ai-workspace) | Meta add-on that installs the full AI development stack with one command. | Workspace |
+| [ddev-opencode](https://github.com/trebormc/ddev-opencode) | [OpenCode](https://opencode.ai) AI CLI container for interactive development. | Auto-installs this add-on |
+| [ddev-claude-code](https://github.com/trebormc/ddev-claude-code) | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI container for interactive development. | Auto-installs this add-on |
+| [ddev-ralph](https://github.com/trebormc/ddev-ralph) | Autonomous AI task orchestrator. Delegates work to OpenCode or Claude Code. | Auto-installs this add-on |
+| [ddev-agents-sync](https://github.com/trebormc/ddev-agents-sync) | Auto-syncs AI agent repositories into a shared Docker volume. | Sibling dependency |
+| [ddev-playwright-mcp](https://github.com/trebormc/ddev-playwright-mcp) | Headless Playwright browser for browser automation and visual testing. | Sibling dependency |
+| [drupal-ai-agents](https://github.com/trebormc/drupal-ai-agents) | 13 agents, 4 rules, 14 skills for Drupal development. Includes Beads workflow rule. | Uses Beads for task tracking |
 
 ## Disclaimer
 
