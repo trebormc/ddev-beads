@@ -1,0 +1,31 @@
+name: ddev-beads
+
+ddev_version_constraint: '>= v1.23.5'
+
+dependencies: []
+
+pre_install_actions:
+  - |
+    #ddev-description:Checking prerequisites for Beads
+    echo "Installing ddev-beads add-on..."
+
+project_files:
+  - docker-compose.beads.yaml
+  - beads-build/Dockerfile.beads
+  - commands/host/bd
+
+global_files: []
+
+post_install_actions:
+  - |
+    #ddev-description:Configuring Beads task tracker
+    chmod +x .ddev/commands/host/bd
+    echo ""
+    echo "Beads task tracker installed successfully!"
+    echo ""
+    echo "Usage: ddev bd ready | ddev bd create \"Task\" -p 1 | ddev bd close <id>"
+
+removal_actions:
+  - |
+    #ddev-description:Cleaning up Beads
+    echo "Beads add-on removed."

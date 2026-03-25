@@ -1,0 +1,49 @@
+#ddev-generated
+# Beads (bd) task tracker container for DDEV
+# Provides git-backed task tracking shared by all AI containers
+# Install: ddev add-on get trebormc/ddev-beads
+
+services:
+  beads:
+    container_name: ddev-${DDEV_SITENAME}-beads
+    hostname: beads
+    build:
+      context: .
+      dockerfile: beads-build/Dockerfile.beads
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: ${DDEV_APPROOT}
+    restart: "no"
+    user: "${DDEV_UID:-1000}:${DDEV_GID:-1000}"
+    working_dir: /var/www/html
+
+    depends_on:
+      - web
+
+    volumes:
+      - ../:/var/www/html
+      - ddev-global-cache:/mnt/ddev-global-cache
+
+    environment:
+      - DDEV_SITENAME
+      - IS_DDEV_PROJECT=true
+      - TZ=${TZ:-UTC}
+
+    stdin_open: true
+    tty: true
+
+    networks:
+      - default
+      - ddev_default
+
+    # Container stays running idle — bd is invoked on demand via docker exec
+    command: ["sleep", "infinity"]
+
+networks:
+  ddev_default:
+    name: ddev_default
+    external: true
+
+volumes:
+  ddev-global-cache:
+    external: true

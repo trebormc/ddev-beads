@@ -1,0 +1,61 @@
+#ddev-generated
+# Beads (bd) task tracker container for DDEV
+# Lightweight: Node.js 22 + Beads CLI only
+
+FROM ubuntu:24.04
+
+ARG USERNAME=beads
+ARG USER_UID=1000
+ARG USER_GID=1000
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV USERNAME=${USERNAME}
+ENV USER_HOME=/home/${USERNAME}
+
+# Install only what Beads needs
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    git \
+    ca-certificates \
+    gnupg \
+    sudo \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 22 (required for Beads)
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Beads (bd) - Git-backed task tracker
+RUN npm install -g @beads/bd \
+    && bd version
+
+# Create user with matching UID/GID
+RUN existing_user=$(getent passwd ${USER_UID} | cut -d: -f1) \
+    && existing_group=$(getent group ${USER_GID} | cut -d: -f1) \
+    && if [ -n "$existing_user" ] && [ "$existing_user" != "${USERNAME}" ]; then \
+         userdel -r $existing_user 2>/dev/null || true; \
+       fi \
+    && if [ -n "$existing_group" ] && [ "$existing_group" != "${USERNAME}" ]; then \
+         groupdel $existing_group 2>/dev/null || true; \
+       fi \
+    && groupadd --gid ${USER_GID} ${USERNAME} 2>/dev/null || true \
+    && useradd --uid ${USER_UID} --gid ${USER_GID} -m -s /bin/bash ${USERNAME} 2>/dev/null || true \
+    && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/${USERNAME} \
+    && chmod 0440 /etc/sudoers.d/${USERNAME}
+
+RUN mkdir -p /var/www/html \
+    && chown -R ${USER_UID}:${USER_GID} ${USER_HOME} \
+    && chown -R ${USER_UID}:${USER_GID} /var/www/html
+
+USER ${USERNAME}
+WORKDIR ${USER_HOME}
+
+RUN echo 'alias ll="ls -la"' >> ~/.bashrc \
+    && echo 'alias br="bd ready --json"' >> ~/.bashrc \
+    && echo 'alias bs="bd sync"' >> ~/.bashrc \
+    && echo '' >> ~/.bashrc \
+    && echo 'echo "Beads container ready (task tracker)"' >> ~/.bashrc \
+    && echo 'echo "  Commands: bd ready | bd create | bd close | bd sync"' >> ~/.bashrc
+
+WORKDIR /var/www/html
