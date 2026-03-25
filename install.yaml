@@ -19,7 +19,6 @@ global_files: []
 post_install_actions:
   - |
     #ddev-description:Configuring Beads task tracker
-    chmod +x .ddev/commands/host/bd
     echo ""
     echo "Beads task tracker installed successfully!"
     echo ""
