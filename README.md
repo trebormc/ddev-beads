@@ -82,6 +82,7 @@ ddev bd prime                              # Get context
 
 ## Related
 
+- [ddev-agents-sync](https://github.com/trebormc/ddev-agents-sync) -- Agents auto-sync from git
 - [ddev-opencode](https://github.com/trebormc/ddev-opencode) -- OpenCode AI container
 - [ddev-claude-code](https://github.com/trebormc/ddev-claude-code) -- Claude Code container
 - [ddev-ralph](https://github.com/trebormc/ddev-ralph) -- Autonomous task runner
