@@ -26,6 +26,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Dolt (SQL database with git-like versioning, required by Beads)
+RUN curl -L https://github.com/dolthub/dolt/releases/latest/download/install.sh | bash \
+    && dolt version
+
 # Install Beads (bd) - Git-backed task tracker
 RUN npm install -g @beads/bd \
     && bd version
