@@ -36,8 +36,8 @@ services:
       - default
       - ddev_default
 
-    # Container stays running idle — bd is invoked on demand via docker exec
-    command: ["sleep", "infinity"]
+    # Initialize Beads database if needed, then stay idle for on-demand bd calls
+    command: ["bash", "-c", "if [ ! -d .beads/dolt ]; then bd init --prefix \"${DDEV_SITENAME:-bd}\" 2>/dev/null || true; fi && sleep infinity"]
 
 networks:
   ddev_default:
