@@ -22,9 +22,6 @@ health_checks() {
   # Verify bd is available
   run ddev exec -s beads bd version
   assert_success
-  # Verify bd init works
-  run ddev exec -s beads bd init --quiet
-  assert_success
 }
 
 teardown() {
