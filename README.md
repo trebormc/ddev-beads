@@ -80,6 +80,13 @@ ddev bd prime                              # Get context
 | P2 | Medium -- normal tasks |
 | P3 | Low -- nice-to-haves |
 
+## Uninstallation
+
+```bash
+ddev add-on remove ddev-beads
+ddev restart
+```
+
 ## Part of DDEV AI Workspace
 
 This add-on is part of [DDEV AI Workspace](https://github.com/trebormc/ddev-ai-workspace), a modular ecosystem of DDEV add-ons for AI-powered Drupal development.
