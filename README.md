@@ -12,12 +12,27 @@ A DDEV add-on that provides [Beads](https://github.com/steveyegge/beads) (bd), a
 
 ## Quick Start
 
+The **recommended way** to install this add-on is through the [DDEV AI Workspace](https://github.com/trebormc/ddev-ai-workspace), which installs all tools and dependencies with a single command:
+
 ```bash
-# Install the add-on
+ddev add-on get trebormc/ddev-ai-workspace
+ddev restart
+```
+
+This add-on is also **automatically installed** as a dependency when you install [ddev-opencode](https://github.com/trebormc/ddev-opencode), [ddev-claude-code](https://github.com/trebormc/ddev-claude-code), or [ddev-ralph](https://github.com/trebormc/ddev-ralph). You rarely need to install it directly.
+
+### Standalone installation
+
+If you need to install it individually (requires familiarity with the DDEV add-on ecosystem):
+
+```bash
 ddev add-on get trebormc/ddev-beads
 ddev restart
+```
 
-# Use from host
+### Usage
+
+```bash
 ddev bd ready
 ddev bd create "Implement feature X" -p 1
 ddev bd close bd-abc --reason "Done"
@@ -26,14 +41,6 @@ ddev bd close bd-abc --reason "Done"
 ## Prerequisites
 
 - [DDEV](https://ddev.readthedocs.io/) >= v1.23.5
-
-## Installation
-
-```bash
-ddev add-on get trebormc/ddev-beads
-```
-
-This add-on is automatically installed as a dependency when you install [ddev-opencode](https://github.com/trebormc/ddev-opencode), [ddev-claude-code](https://github.com/trebormc/ddev-claude-code), or [ddev-ralph](https://github.com/trebormc/ddev-ralph).
 
 ## Architecture
 
