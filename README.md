@@ -4,6 +4,12 @@
 
 A DDEV add-on that provides [Beads](https://github.com/steveyegge/beads) (bd), a git-backed task tracker for AI agents, in a dedicated container. Other AI containers (OpenCode, Claude Code, Ralph) delegate task tracking to this container via `docker exec`.
 
+> **Part of [DDEV AI Workspace](https://github.com/trebormc/ddev-ai-workspace)** — a modular ecosystem of DDEV add-ons for AI-powered Drupal development. Install the full stack with one command: `ddev add-on get trebormc/ddev-ai-workspace`
+>
+> Created by [Robert Menetray](https://menetray.com) · Sponsored by [DruScan](https://druscan.com)
+
+**Why a separate container?** Task tracking runs in its own container so that all AI tools (OpenCode, Claude Code, Ralph) share the same task state without conflicts. Each container accesses Beads via a lightweight `bd` wrapper that delegates to `docker exec`, keeping the task data centralized in the project's `.beads/` directory.
+
 ## Quick Start
 
 ```bash
@@ -103,7 +109,7 @@ This add-on is part of [DDEV AI Workspace](https://github.com/trebormc/ddev-ai-w
 
 ## Disclaimer
 
-This project is not affiliated with Anthropic, OpenCode, Beads, Playwright, Microsoft, or DDEV. AI-generated code may contain errors -- always review changes before deploying to production. See [menetray.com](https://menetray.com) for more information and [DruScan](https://druscan.com) for Drupal auditing tools.
+This project is an independent initiative by [Robert Menetray](https://menetray.com), sponsored by [DruScan](https://druscan.com). It is not affiliated with Anthropic, OpenCode, Beads, Playwright, Microsoft, or DDEV. AI-generated code may contain errors -- always review changes before deploying to production.
 
 ## License
 
