@@ -88,10 +88,10 @@ ddev bd prime                              # Get context
 
 | Level | Meaning |
 |-------|---------|
-| P0 | Critical -- blockers, security |
-| P1 | High -- important features |
-| P2 | Medium -- normal tasks |
-| P3 | Low -- nice-to-haves |
+| P0 | Critical (blockers, security) |
+| P1 | High (important features) |
+| P2 | Medium (normal tasks) |
+| P3 | Low (nice-to-haves) |
 
 ## Uninstallation
 
@@ -116,7 +116,7 @@ This add-on is part of [DDEV AI Workspace](https://github.com/trebormc/ddev-ai-w
 
 ## Disclaimer
 
-This project is an independent initiative by [Robert Menetray](https://menetray.com), sponsored by [DruScan](https://druscan.com). It is not affiliated with Anthropic, OpenCode, Beads, Playwright, Microsoft, or DDEV. AI-generated code may contain errors -- always review changes before deploying to production.
+This project is an independent initiative by [Robert Menetray](https://menetray.com), sponsored by [DruScan](https://druscan.com). It is not affiliated with Anthropic, OpenCode, Beads, Playwright, Microsoft, or DDEV. AI-generated code may contain errors. Always review changes before deploying to production.
 
 ## License
 
