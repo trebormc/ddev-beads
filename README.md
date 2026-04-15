@@ -43,7 +43,7 @@ ddev bd close bd-abc --reason "Done"
 
 ## Prerequisites
 
-- [DDEV](https://ddev.readthedocs.io/) >= v1.23.5
+- [DDEV](https://ddev.readthedocs.io/) >= v1.24.10
 
 ## Architecture
 
