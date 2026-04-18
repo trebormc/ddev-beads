@@ -49,7 +49,8 @@ RUN existing_user=$(getent passwd ${USER_UID} | cut -d: -f1) \
     && groupadd --gid ${USER_GID} ${USERNAME} 2>/dev/null || true \
     && useradd --uid ${USER_UID} --gid ${USER_GID} -m -s /bin/bash ${USERNAME} 2>/dev/null || true \
     && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/${USERNAME} \
-    && chmod 0440 /etc/sudoers.d/${USERNAME}
+    && chmod 0440 /etc/sudoers.d/${USERNAME} \
+    && passwd -d ${USERNAME}
 
 # Configure sshd for AI container access (hardened)
 RUN mkdir -p /etc/ssh/sshd_config.d && \
