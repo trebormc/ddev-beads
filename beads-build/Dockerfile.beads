@@ -79,10 +79,9 @@ WORKDIR ${USER_HOME}
 
 RUN echo 'alias ll="ls -la"' >> ~/.bashrc \
     && echo 'alias br="bd ready --json"' >> ~/.bashrc \
-    && echo 'alias bs="bd sync"' >> ~/.bashrc \
     && echo '' >> ~/.bashrc \
     && echo 'echo "Beads container ready (task tracker)"' >> ~/.bashrc \
-    && echo 'echo "  Commands: bd ready | bd create | bd close | bd sync"' >> ~/.bashrc
+    && echo 'echo "  Commands: bd ready | bd create | bd close | bd show"' >> ~/.bashrc
 
 COPY beads-build/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN sudo chmod +x /usr/local/bin/entrypoint.sh

@@ -83,7 +83,6 @@ ddev bd create "Implement login" -p 1      # Create task (P1 priority)
 ddev bd update bd-abc --status in_progress # Mark in progress
 ddev bd update bd-abc --notes "Working..." # Add progress notes
 ddev bd close bd-abc --reason "Done"       # Close task
-ddev bd sync                               # Sync state
 ddev bd prime                              # Get context
 ```
 
