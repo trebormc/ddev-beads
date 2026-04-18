@@ -36,7 +36,7 @@ services:
       - default
       - ddev_default
 
-    # Initialize Beads database if needed, then stay idle for on-demand bd calls
+    # Initialize Beads database if needed, then stay idle for on-demand bd/SSH calls
     command: ["bash", "-c", "if [ ! -d .beads/dolt ]; then bd init --prefix \"${DDEV_SITENAME:-bd}\" 2>/dev/null || true; fi && sleep infinity"]
 
 networks:

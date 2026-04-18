@@ -12,6 +12,7 @@ pre_install_actions:
 project_files:
   - docker-compose.beads.yaml
   - beads-build/Dockerfile.beads
+  - beads-build/entrypoint.sh
   - commands/host/bd
 
 global_files: []

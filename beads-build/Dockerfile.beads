@@ -1,6 +1,6 @@
 #ddev-generated
 # Beads (bd) task tracker container for DDEV
-# Lightweight: Node.js 22 + Beads CLI only
+# Lightweight: Node.js 22 + Beads CLI + sshd
 
 FROM ubuntu:24.04
 
@@ -12,7 +12,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV USERNAME=${USERNAME}
 ENV USER_HOME=/home/${USERNAME}
 
-# Install only what Beads needs
+# Install only what Beads needs (plus sshd for AI container access)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
@@ -20,6 +20,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gnupg \
     sudo \
     libicu74 \
+    openssh-server \
+    && mkdir -p /var/run/sshd \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js 22 (required for Beads)
@@ -49,6 +51,24 @@ RUN existing_user=$(getent passwd ${USER_UID} | cut -d: -f1) \
     && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/${USERNAME} \
     && chmod 0440 /etc/sudoers.d/${USERNAME}
 
+# Configure sshd for AI container access (hardened)
+RUN mkdir -p /etc/ssh/sshd_config.d && \
+    printf '#!/bin/bash\n. /etc/ddev-env 2>/dev/null\ncd /var/www/html\nif [ -n "$SSH_ORIGINAL_COMMAND" ]; then\n    eval "$SSH_ORIGINAL_COMMAND"\nelse\n    exec bash -l\nfi\n' \
+    > /usr/local/bin/ai-ssh-command.sh && chmod +x /usr/local/bin/ai-ssh-command.sh
+
+RUN printf '%s\n' \
+    'PermitRootLogin no' \
+    'PasswordAuthentication no' \
+    'PubkeyAuthentication yes' \
+    'UsePAM no' \
+    "AllowUsers ${USERNAME}" \
+    'AllowTcpForwarding no' \
+    'X11Forwarding no' \
+    '' \
+    "Match User ${USERNAME}" \
+    '    ForceCommand /usr/local/bin/ai-ssh-command.sh' \
+    > /etc/ssh/sshd_config.d/ai-agent.conf
+
 RUN mkdir -p /var/www/html \
     && chown -R ${USER_UID}:${USER_GID} ${USER_HOME} \
     && chown -R ${USER_UID}:${USER_GID} /var/www/html
@@ -62,5 +82,10 @@ RUN echo 'alias ll="ls -la"' >> ~/.bashrc \
     && echo '' >> ~/.bashrc \
     && echo 'echo "Beads container ready (task tracker)"' >> ~/.bashrc \
     && echo 'echo "  Commands: bd ready | bd create | bd close | bd sync"' >> ~/.bashrc
+
+COPY beads-build/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN sudo chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 WORKDIR /var/www/html
