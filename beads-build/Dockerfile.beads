@@ -33,8 +33,20 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
 RUN curl -L https://github.com/dolthub/dolt/releases/latest/download/install.sh | bash \
     && dolt version
 
-# Install Beads (bd) - Git-backed task tracker
-RUN npm install -g @beads/bd \
+# Install Beads (bd) - Git-backed task tracker.
+# The npm package is a thin wrapper: its postinstall downloads the matching
+# native binary from GitHub Releases. Upstream has deleted releases before
+# (e.g. v1.0.5) while npm's `latest` still pointed to it, which 404s the
+# download and breaks the build. So try `latest` first and fall back through
+# known-good versions until one installs successfully.
+RUN for v in latest 1.1.0 1.0.4; do \
+        echo "Installing @beads/bd@$v..."; \
+        if npm install -g "@beads/bd@$v"; then \
+            echo "Installed @beads/bd@$v"; \
+            break; \
+        fi; \
+        echo "@beads/bd@$v failed, trying next fallback..."; \
+    done \
     && bd version
 
 # Create user with matching UID/GID
