@@ -39,8 +39,13 @@ services:
       - default
       - ddev_default
 
-    # Initialize Beads database if needed, then stay idle for on-demand bd/SSH calls
-    command: ["bash", "-c", "if [ ! -d .beads/dolt ]; then bd init --prefix \"${DDEV_SITENAME:-bd}\" 2>/dev/null || true; fi && sleep infinity"]
+    # Initialize Beads database if needed, then stay idle for on-demand bd/SSH calls.
+    # bd init must never touch the project's git state:
+    #   BEADS_DIR set    -> skips `git init` (no .git created in non-git projects)
+    #   --stealth        -> no auto-commit, no hooks (core.hooksPath), no tracked
+    #                       .gitignore changes (uses .git/info/exclude instead)
+    #   --skip-agents    -> no AGENTS.md / CLAUDE.md / .claude files in the project
+    command: ["bash", "-c", "if [ ! -d .beads/dolt ]; then BEADS_DIR=/var/www/html/.beads bd init --prefix \"${DDEV_SITENAME:-bd}\" --stealth --skip-agents 2>/dev/null || true; fi && sleep infinity"]
 
 networks:
   ddev_default:

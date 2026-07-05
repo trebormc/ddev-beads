@@ -71,6 +71,16 @@ All AI containers access Beads via `ssh beads bd <command>`. A wrapper function 
 
 The `.beads/` directory lives in the project root (`/var/www/html/.beads/`), shared across all containers via the project volume.
 
+### Git safety
+
+The container auto-runs `bd init` on start if `.beads/dolt` is missing, in a mode that **never touches your project's git state**:
+
+- No `git init` — installing this add-on in a non-git project will NOT create a `.git` directory (`BEADS_DIR` is set, which makes `bd init` skip git initialization).
+- No auto-commits, no git hooks (`core.hooksPath`), no changes to your tracked `.gitignore` (`--stealth`).
+- No `AGENTS.md` / `CLAUDE.md` / `.claude/` files created in your project (`--skip-agents`).
+
+The only trace in an existing git repo is a couple of ignore patterns added to `.git/info/exclude` (local-only, never versioned) so `.beads/` data cannot be committed by accident.
+
 ## Commands
 
 ### `ddev bd`
