@@ -89,6 +89,14 @@ RUN mkdir -p /var/www/html \
 USER ${USERNAME}
 WORKDIR ${USER_HOME}
 
+# Preconfigure the beads role in the container user's GLOBAL git config
+# (~/.gitconfig inside the container — never touches the project). bd resolves
+# beads.role via plain `git config --get`, which also reads the global scope,
+# so this works whether or not the project is a git repository: it silences
+# the per-command "beads.role not configured" warning and stops bd init's
+# safety net from writing beads.role into the project's .git/config.
+RUN git config --global beads.role maintainer
+
 RUN echo 'alias ll="ls -la"' >> ~/.bashrc \
     && echo 'alias br="bd ready --json"' >> ~/.bashrc \
     && echo '' >> ~/.bashrc \
